@@ -28,7 +28,7 @@ docker-compose build
 docker-compose up
 ```
 
-The app will be accesible by the port 3000
+The app will be accesible via the port 3000
 
 ```
 http://127.0.0.1:3000/
