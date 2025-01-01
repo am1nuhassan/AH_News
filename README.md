@@ -23,7 +23,7 @@ In order to run the project.
 
 ```
 git clone https://github.com/am1nuhassan/AH_News.git
-cd Ah_News
+cd AH_News
 docker-compose build
 docker-compose up
 ```
