@@ -36,7 +36,7 @@ RUN php artisan config:cache && \
 RUN php artisan news:fetch
 
 # Expose the default PHP-FPM port
-EXPOSE 9000
+EXPOSE 8000
 
 # Set PHP-FPM as the default command
 CMD ["php-fpm"]
