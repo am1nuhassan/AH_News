@@ -1,5 +1,5 @@
 # frontend/Dockerfile
-FROM node:16
+FROM node:18
 
 # Set working directory
 WORKDIR /app
@@ -22,4 +22,4 @@ RUN npm install -g serve
 # Expose port 3000
 EXPOSE 3000
 
-CMD ["serve", "-s", "build"]
+CMD ["serve", "-s", "dist"]
