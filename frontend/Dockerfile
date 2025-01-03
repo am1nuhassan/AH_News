@@ -1,7 +1,7 @@
-# frontend/Dockerfile
-FROM node:18
+# Use Node.js as the base image
+FROM node:18-alpine
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json
@@ -10,16 +10,11 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application
+# Copy the rest of the application code
 COPY . .
 
-# Build the React app
-RUN npm run build
+# Expose the port the app runs on
+EXPOSE 5173
 
-# Install serve to serve the build
-RUN npm install -g serve
-
-# Expose port 3000
-EXPOSE 3000
-
-CMD ["serve", "-s", "dist"]
+# Start the React app
+CMD ["npm", "run", "dev"]

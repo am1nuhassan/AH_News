@@ -1,16 +1,8 @@
-# Stage 1: Build dependencies
-FROM composer:latest AS composer
-WORKDIR /app
-
-# Copy application files and install dependencies
-COPY . .
-RUN composer install --no-dev --optimize-autoloader
-
-# Stage 2: Final image
 FROM php:8.2-fpm
+
 WORKDIR /var/www
 
-# Install required system packages and PHP extensions
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -19,24 +11,19 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip pdo pdo_mysql bcmath
+    && docker-php-ext-install gd zip
 
-# Copy application files and dependencies from the composer stage
-COPY --from=composer /app /var/www
+COPY . .
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --no-dev --no-scripts --prefer-dist --no-progress --no-suggest --
 
-# Ensure correct permissions for storage and cache
+# Copy composer.json and composer.lock
+COPY composer.* ./
+
+# Set permissions for Laravel storage and bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Optimize Laravel for production
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
-
-# Fetch news articles command
-RUN php artisan news:fetch
-
-# Expose the default PHP-FPM port
+# Expose port 8000
 EXPOSE 8000
 
-# Set PHP-FPM as the default command
-CMD ["php-fpm"]
+CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000" ]

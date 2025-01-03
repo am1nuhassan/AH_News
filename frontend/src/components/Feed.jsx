@@ -66,7 +66,7 @@ const Feed = () => {
 
   return (
     <div className='w-full max-w-7xl mx-auto mb-8'>
-      <div className='flex space-x-4 border-b'>
+      <div className='flex space-x-4 border-b overflow-x-scroll'>
         {categories.map((category) => (
           <CategoriesButton
             key={category}
@@ -80,7 +80,7 @@ const Feed = () => {
           />
         ))}
       </div>
-      <div className='w-full px-4 py-4 grid grid-cols-3 gap-4'>
+      <div className='w-full px-4 py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
         {loading ? <h2 className='text-center text-[24px]'>Loading...</h2> : ''}
         {error ? (
           <h2 className='text-center text-[24px]'>No articles found!</h2>
